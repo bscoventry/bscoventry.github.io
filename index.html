@@ -1,1 +1,698 @@
-"Hello World" 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Lab</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #000000;
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #networkCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            display: block;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h3 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            max-width: 900px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .scroll-indicator {
+            width: 30px;
+            height: 50px;
+            border: 2px solid white;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 10px;
+            background: white;
+            border-radius: 3px;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll 2s infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes scroll {
+            0% {
+                opacity: 0;
+                top: 8px;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                top: 25px;
+            }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .about-content {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .about-content h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .about-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Research Areas Grid */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .research-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .research-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .research-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .research-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .research-card a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .research-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Publications Section */
+        .publications-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .publication-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .publication-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .publication-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .publication-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .publication-card .btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .publication-card .btn:hover {
+            background: #5568d3;
+        }
+
+        /* Music Section */
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .music-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .music-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .music-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .music-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .music-card audio {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .music-card a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .music-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h3 {
+                font-size: 1.2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .publications-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#publications">Publications</a></li>
+            <li><a href="#music">Music</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <canvas id="networkCanvas"></canvas>
+        <div class="hero-content">
+            <h1>Research Lab</h1>
+            <h3>Advancing Knowledge in Neural Engineering, Brain Stimulation, and Intelligent Medical Devices</h3>
+            <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Our Lab</h2>
+        <div class="about-content">
+            <h4>Our Mission</h4>
+            <p>We work on cutting-edge research in neural engineering and intelligent medical devices. Our goal is to develop innovative technologies that advance our understanding of the brain and create next-generation therapeutic solutions.</p>
+            
+            <h4>Research Questions</h4>
+            <p>"How can we interface with neural systems more effectively?", "What are the mechanisms underlying brain stimulation therapies?", "How can we design intelligent medical devices that adapt to individual patient needs?"</p>
+            
+            <h4>Research Philosophy</h4>
+            <p>We specialize in interdisciplinary research that combines neuroscience, engineering, and clinical applications. Our approach emphasizes rigorous scientific methodology, translational research, and the development of technologies that improve human health and well-being.</p>
+        </div>
+    </section>
+
+    <!-- Research Areas Section -->
+    <section id="research">
+        <h2>Research Areas</h2>
+        <div class="research-grid">
+            <div class="research-card">
+                <h3>Neural Engineering</h3>
+                <p>Developing advanced neural interfaces and recording technologies to understand and modulate brain activity with unprecedented precision.</p>
+                <a href="#publications">Read more →</a>
+            </div>
+            <div class="research-card">
+                <h3>Brain Stimulation</h3>
+                <p>Investigating therapeutic applications of electrical and magnetic stimulation for neurological and psychiatric disorders.</p>
+                <a href="#publications">Read more →</a>
+            </div>
+            <div class="research-card">
+                <h3>Intelligent Medical Devices</h3>
+                <p>Creating smart, adaptive medical devices that use machine learning to optimize treatment parameters in real-time.</p>
+                <a href="#publications">Read more →</a>
+            </div>
+            <div class="research-card">
+                <h3>Biomedical Instrumentation</h3>
+                <p>Designing next-generation sensors and instrumentation for precise measurement and control of physiological signals.</p>
+                <a href="#publications">Read more →</a>
+            </div>
+            <div class="research-card">
+                <h3>Neuroprosthetics</h3>
+                <p>Engineering prosthetic systems that restore function through direct neural control and sensory feedback.</p>
+                <a href="#publications">Read more →</a>
+            </div>
+            <div class="research-card">
+                <h3>Clinical Translation</h3>
+                <p>Bridging the gap between laboratory innovations and clinical applications to improve patient outcomes.</p>
+                <a href="#publications">Read more →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications">
+        <h2>Featured Publications</h2>
+        <div class="publications-container">
+            <div class="publication-card">
+                <h3>Recent Book Publication</h3>
+                <p><strong>Title:</strong> "Advances in Neural Engineering and Brain-Computer Interfaces"</p>
+                <p>A comprehensive guide to modern neural engineering techniques and their clinical applications.</p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+            <div class="publication-card">
+                <h3>Journal Article</h3>
+                <p><strong>Title:</strong> "Adaptive Brain Stimulation for Treatment-Resistant Depression"</p>
+                <p>Published in: Nature Neuroscience, 2024</p>
+                <a href="#" class="btn">Read Paper</a>
+            </div>
+            <div class="publication-card">
+                <h3>Conference Paper</h3>
+                <p><strong>Title:</strong> "Closed-Loop Neural Interfaces for Seizure Prediction"</p>
+                <p>Published in: IEEE International Conference on Neural Engineering, 2024</p>
+                <a href="#" class="btn">Read Paper</a>
+            </div>
+            <div class="publication-card">
+                <h3>Review Article</h3>
+                <p><strong>Title:</strong> "Intelligent Medical Devices: The Future of Personalized Medicine"</p>
+                <p>Published in: Annual Review of Biomedical Engineering, 2024</p>
+                <a href="#" class="btn">Read Paper</a>
+            </div>
+            <div class="publication-card">
+                <h3>Technical Report</h3>
+                <p><strong>Title:</strong> "Miniaturized Neural Recording Systems for Long-Term Monitoring"</p>
+                <p>Published in: Journal of Neural Engineering, 2024</p>
+                <a href="#" class="btn">Read Paper</a>
+            </div>
+            <div class="publication-card">
+                <h3>Clinical Study</h3>
+                <p><strong>Title:</strong> "Safety and Efficacy of Novel Deep Brain Stimulation Protocols"</p>
+                <p>Published in: The Lancet Neurology, 2024</p>
+                <a href="#" class="btn">Read Paper</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Section -->
+    <section id="music">
+        <h2>Music</h2>
+        <div class="music-grid">
+            <div class="music-card">
+                <h3>Composition 1</h3>
+                <p>An exploration of neural rhythms translated to sound.</p>
+                <audio controls>
+                    <source src="audio/composition1.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <br><br>
+                <a href="#">Learn More →</a>
+            </div>
+            <div class="music-card">
+                <h3>Composition 2</h3>
+                <p>Algorithmic music inspired by brain oscillations.</p>
+                <audio controls>
+                    <source src="audio/composition2.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <br><br>
+                <a href="#">Learn More →</a>
+            </div>
+            <div class="music-card">
+                <h3>Composition 3</h3>
+                <p>Sonification of neural network patterns.</p>
+                <audio controls>
+                    <source src="audio/composition3.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <br><br>
+                <a href="#">Learn More →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-info">
+            <p><strong>Email:</strong> <a href="mailto:lab@university.edu">lab@university.edu</a></p>
+            <p><strong>Address:</strong> Department of Biomedical Engineering, University Name</p>
+            <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>All Rights Reserved. © 2024 - Research Lab</p>
+    </footer>
+
+    <script>
+        // Neural Network Animation
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        const nodes = [];
+        const nodeCount = 80;
+        const maxDistance = 150;
+        let mouse = { x: width / 2, y: height / 2 };
+        const mouseInfluence = 100;
+        
+        class Node {
+            constructor() {
+                this.baseX = Math.random() * width;
+                this.baseY = Math.random() * height;
+                this.x = this.baseX;
+                this.y = this.baseY;
+                this.radius = 2;
+            }
+            
+            update() {
+                // Mouse interaction only - no drift
+                const dx = mouse.x - this.baseX;
+                const dy = mouse.y - this.baseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < mouseInfluence) {
+                    const force = (mouseInfluence - distance) / mouseInfluence;
+                    this.x = this.baseX + dx * force * 0.3;
+                    this.y = this.baseY + dy * force * 0.3;
+                } else {
+                    // Smoothly return to base position
+                    this.x += (this.baseX - this.x) * 0.1;
+                    this.y += (this.baseY - this.y) * 0.1;
+                }
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fill();
+            }
+        }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fill();
+            }
+        }
+        
+        // Initialize nodes
+        function initNodes() {
+            nodes.length = 0;
+            for (let i = 0; i < nodeCount; i++) {
+                nodes.push(new Node());
+            }
+        }
+        
+        initNodes();
+        
+        function drawConnections() {
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < maxDistance) {
+                        const opacity = (1 - distance / maxDistance) * 0.4;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        function animate() {
+            // Clear with black background to ensure visibility
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.clearRect(0, 0, width, height);
+            
+            drawConnections();
+            
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // Mouse move handler
+        canvas.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            mouse = { x: width / 2, y: height / 2 };
+            initNodes();
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active state to navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.color = '#333';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.color = '#667eea';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
