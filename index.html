@@ -539,7 +539,6 @@
         <div class="contact-info">
             <p><strong>Email:</strong> <a href="mailto:coventry@wisc.edu">coventry (at) wisc (dot) edu</a></p>
             <p><strong>Address:</strong> Department of Neurological Surgery, University of Wisconsin-Madison</p>
-            <p><strong>Phone:</strong> +1 (555) 123-4567</p>
         </div>
     </section>
 
@@ -560,8 +559,8 @@
         resizeCanvas();
         
         const nodes = [];
-        const nodeCount = 120;
-        const maxDistance = 200;
+        const nodeCount = 200; // Increased from 120
+        const maxDistance = 150; // Reduced to create more connections
         let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
         const mouseInfluence = 100;
         
@@ -618,7 +617,7 @@
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     
                     if (distance < maxDistance) {
-                        const opacity = (1 - distance / maxDistance) * 0.4;
+                        const opacity = (1 - distance / maxDistance) * 0.5;
                         ctx.beginPath();
                         ctx.moveTo(nodes[i].x, nodes[i].y);
                         ctx.lineTo(nodes[j].x, nodes[j].y);
