@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Lab</title>
+    <title>Research Lab - Brandon S Coventry, PhD</title>
     <style>
         * {
             margin: 0;
@@ -69,8 +69,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 1;
-            display: block;
+            z-index: 1;
         }
 
         .hero-content {
@@ -155,7 +154,7 @@
         /* Section Styles */
         section {
             padding: 5rem 2rem;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -368,6 +367,20 @@
             .publications-container {
                 grid-template-columns: 1fr;
             }
+
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .music-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            section {
+                max-width: 1600px;
+            }
         }
     </style>
 </head>
@@ -454,37 +467,37 @@
                 <h3>Journal Article</h3>
                 <p><strong>Title:</strong> "Characterization and closed-loop control of infrared thalamocortical stimulation produces spatially constrained single-unit responses"</p>
                 <p>Published in: PNAS Nexus, 2024.</p>
-                <a href="#" class="btn">Learn More</a>
+                <a href="https://academic.oup.com/pnasnexus/article/3/1/pgad438/7513092" target="_blank" class="btn">Read Paper</a>
             </div>
             <div class="publication-card">
                 <h3>Journal Article</h3>
                 <p><strong>Title:</strong> "Self-Aligned Multilayered Nitrogen Vacancy Diamond Nanoparticles for High Spatial Resolution Magnetometry of Microelectronic Currents"</p>
                 <p>Published in: Nano Letters, 2025</p>
-                <a href="#" class="btn">Read Paper</a>
+                <a href="https://pubs.acs.org/doi/10.1021/acs.nanolett.4c04586" target="_blank" class="btn">Read Paper</a>
             </div>
             <div class="publication-card">
                 <h3>Journal Article</h3>
                 <p><strong>Title:</strong> "Focal thalamic infrared neural stimulation propagates dynamical transformations in auditory cortex"</p>
                 <p>Published in: Journal of Neural Engineering, 2025</p>
-                <a href="#" class="btn">Read Paper</a>
+                <a href="https://iopscience.iop.org/article/10.1088/1741-2552/ad9681" target="_blank" class="btn">Read Paper</a>
             </div>
             <div class="publication-card">
                 <h3>Conference Proceedings</h3>
                 <p><strong>Title:</strong> "Closed-Loop Reinforcement Learning Based Deep Brain Stimulation Using SpikerNet: A Computational Model"</p>
                 <p>Published in: IEEE International Conference on Neural Engineering (NER), 2023</p>
-                <a href="#" class="btn">Read Paper</a>
+                <a href="https://ieeexplore.ieee.org/document/10123807" target="_blank" class="btn">Read Paper</a>
             </div>
             <div class="publication-card">
                 <h3>Technical Report</h3>
                 <p><strong>Title:</strong> "Practical Bayesian Inference in Neuroscience: Or How I Learned to Stop Worrying and Embrace the Distribution"</p>
                 <p>Published in: eNeuro, 2024</p>
-                <a href="#" class="btn">Read Paper</a>
+                <a href="https://www.eneuro.org/content/11/1/ENEURO.0451-23.2024" target="_blank" class="btn">Read Paper</a>
             </div>
             <div class="publication-card">
                 <h3>Conference Proceedings</h3>
                 <p><strong>Title:</strong> "Short-wave Infrared Neural Stimulation Drives Graded Sciatic Nerve Activation Across A Continuum of Wavelengths"</p>
                 <p>Published in: IEEE Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC), 2020</p>
-                <a href="#" class="btn">Read Paper</a>
+                <a href="https://ieeexplore.ieee.org/document/9176189" target="_blank" class="btn">Read Paper</a>
             </div>
         </div>
     </section>
@@ -542,30 +555,36 @@
     </footer>
 
     <script>
-        // Neural Network Animation
         const canvas = document.getElementById('networkCanvas');
         const ctx = canvas.getContext('2d');
         
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        resizeCanvas();
         
         const nodes = [];
         const nodeCount = 80;
         const maxDistance = 150;
-        let mouse = { x: width / 2, y: height / 2 };
+        let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
         const mouseInfluence = 100;
         
         class Node {
             constructor() {
-                this.baseX = Math.random() * width;
-                this.baseY = Math.random() * height;
-                this.x = this.baseX;
-                this.y = this.baseY;
+                this.resetPosition();
                 this.radius = 2;
             }
             
+            resetPosition() {
+                this.baseX = Math.random() * canvas.width;
+                this.baseY = Math.random() * canvas.height;
+                this.x = this.baseX;
+                this.y = this.baseY;
+            }
+            
             update() {
-                // Mouse interaction only - no drift
                 const dx = mouse.x - this.baseX;
                 const dy = mouse.y - this.baseY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
@@ -575,7 +594,6 @@
                     this.x = this.baseX + dx * force * 0.3;
                     this.y = this.baseY + dy * force * 0.3;
                 } else {
-                    // Smoothly return to base position
                     this.x += (this.baseX - this.x) * 0.1;
                     this.y += (this.baseY - this.y) * 0.1;
                 }
@@ -588,16 +606,7 @@
                 ctx.fill();
             }
         }
-            
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                ctx.fill();
-            }
-        }
         
-        // Initialize nodes
         function initNodes() {
             nodes.length = 0;
             for (let i = 0; i < nodeCount; i++) {
@@ -628,10 +637,8 @@
         }
         
         function animate() {
-            // Clear with black background to ensure visibility
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, width, height);
-            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             drawConnections();
             
@@ -645,17 +652,15 @@
         
         animate();
         
-        // Mouse move handler
         canvas.addEventListener('mousemove', (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
         });
         
         window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            mouse = { x: width / 2, y: height / 2 };
-            initNodes();
+            resizeCanvas();
+            mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+            nodes.forEach(node => node.resetPosition());
         });
 
         // Smooth scrolling for navigation links
